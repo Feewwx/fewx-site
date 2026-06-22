@@ -133,6 +133,30 @@ loader.load(
           
         } else if (child.name === 'black') {
           child.material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+          const d = Math.abs(camera.position.y - child.position.y);
+
+          // 2. 计算当前视口在距离 d 处的可见高宽
+          const vFov = (camera.fov * Math.PI) / 180;
+          const visibleHeight = 2 * Math.tan(vFov / 2) * d;
+          const visibleWidth = visibleHeight * camera.aspect;
+
+          // 3. 自动获取背板的原始尺寸（最稳妥的做法，免去手动测量）
+          // 先把缩放临时重置为 1，确保拿到的是模型原本的几何大小
+          child.scale.set(1, 1, 1);
+          const box = new THREE.Box3().setFromObject(child);
+          const size = new THREE.Vector3();
+          box.getSize(size);
+
+          // ⚠️ 核心细节：因为视角是从上往下看，屏幕的宽对应 X，高对应 Z
+          const originalWidth = size.x;  // 背板在 X 轴的原始宽度
+          const originalHeight = size.z; // 背板在 Z 轴的原始高度
+
+          // 4. 算出精准的缩放倍数
+          const scaleX = visibleWidth / originalWidth;
+          const scaleZ = visibleHeight / originalHeight;
+
+          // 5. 重新赋值缩放（保持 Y 轴厚度不变，或者设为 1）
+          child.scale.set(scaleX, 1, scaleZ);
         } else {
           if (child.material) {
             child.material.transparent = false;      
