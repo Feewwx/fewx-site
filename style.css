@@ -11,6 +11,7 @@ html, body {
   overflow: hidden;
 }
 
+/* 🖥️ 电脑端默认样式 */
 nav {
   position: fixed;
   top: 32px;
@@ -18,6 +19,7 @@ nav {
   z-index: 10;
   display: flex;
   gap: 48px;
+  pointer-events: none; /* 💡 鼠标穿透容器空隙，不挡住后面的3D方块拖拽 */
 }
 
 nav a {
@@ -26,7 +28,13 @@ nav a {
   font-family: system-ui, sans-serif;
   font-weight: 700;
   letter-spacing: 0.05em;
-  font-size: 14px;
+  font-size: 20px;       /* 💡 电脑端字体大小，你可以随意修改这个数字测试效果 */
+  pointer-events: auto; /* 💡 恢复文字本身的点击事件 */
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #fff;
 }
 
 #scene {
@@ -34,4 +42,25 @@ nav a {
   inset: 0;
   z-index: 5;
   display: block;
+}
+
+
+/* ==========================================
+   📱 手机端自适应样式（屏幕宽度小于 768px 时自动生效）
+   ========================================== */
+@media (max-width: 768px) {
+  nav {
+    top: 24px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); /* 💡 手机端让导航栏在屏幕正中央水平居中 */
+    gap: 24px;                   /* 💡 缩小标签之间的间距 */
+    width: 100%;
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 15px !important;  /* 💡 手机端精细字号，!important 确保绝对生效 */
+    letter-spacing: 0.02em;
+  }
 }

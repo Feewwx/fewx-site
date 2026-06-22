@@ -4,9 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FEWX</title>
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./style.css?v=2.0" />
 
-  <!-- 不用打包工具，直接从 CDN 拉 three.js 模块；版本号写死，升级时手动改这两行 -->
   <script type="importmap">
   {
     "imports": {
@@ -18,14 +17,12 @@
 </head>
 <body>
   <nav>
-    <a href="#"style="font-size: 30px;">HOME</a>
-    <a href="#"style="font-size: 30px;">ABOUT</a>
-    <a href="#"style="font-size: 30px;">RODUCTS</a>
-    <a href="#"style="font-size: 30px;">FEWX</a>
+    <a href="#">HOME</a>
+    <a href="#">ABOUT</a>
+    <a href="#">PRODUCTS</a>
+    <a href="#">FEWX</a>
   </nav>
 
-  <!-- 字标现在是 blog.glb/phone.glb 场景里自带的贴图平面（节点名 blog1_web_new /
-       blog2_web_new），跟 cube、黑背板一起在 main.js 里整体加载，这里不用再放图层了 -->
   <canvas id="scene"></canvas>
 
   <script type="module" src="./main.js"></script>
