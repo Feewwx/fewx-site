@@ -9,6 +9,7 @@ html, body {
   height: 100%;
   background: #000;
   overflow: hidden;
+  filter: saturate(102%) contrast(106%);
 }
 
 /* 🖥️ 电脑端默认样式 */
@@ -23,7 +24,7 @@ nav {
 }
 
 nav a {
-  color: #f5f0d8;
+  color: #ffffff;
   text-decoration: none;
   font-family: system-ui, sans-serif;
   font-weight: 700;

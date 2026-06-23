@@ -88,7 +88,7 @@ loader.load(
     // 面光：大幅加强强度。没有了假房问的泛光，纯靠它来勾勒高级的磨砂晶体边缘轮廓
     const lightProxy = root.getObjectByName('面光');
     if (lightProxy) {
-      const areaLight = new THREE.RectAreaLight(0xffffff, 4.5, lightProxy.scale.x, lightProxy.scale.y);
+      const areaLight = new THREE.RectAreaLight(0xffffff, 6.5, lightProxy.scale.x, lightProxy.scale.y);
       areaLight.position.copy(lightProxy.position);
       areaLight.quaternion.copy(lightProxy.quaternion);
       scene.add(areaLight);
