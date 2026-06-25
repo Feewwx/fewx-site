@@ -27,7 +27,7 @@ nav {
 }
 
 nav a {
-  color: #ffffff;
+  color: #f5f0d8;
   text-decoration: none;
   font-family: system-ui, sans-serif;
   font-weight: 700;
@@ -38,7 +38,7 @@ nav a {
 }
 
 nav a:hover {
-  color: #ff5500;
+  color: #ff0000;
 }
 
 /* 3D 场景永远在底层，且保留鼠标交互 */
