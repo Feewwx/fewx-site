@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>FEWX - Projects</title>
+  <link rel="stylesheet" href="./style.css?v=2.0" />
+</head>
+<body>
+  <nav>
+    <a href="home.html">HOME</a>
+    <a href="products.html" style="color: #ff5500;">PRODUCTS</a>
+    <a href="fewx.html">FEWX</a>
+    <a href="log.html">LOG</a>
+  </nav>
+  <canvas id="scene"></canvas>
+  <div class="content-wrapper">
+    <div class="section-title">PROJECTS / 项目</div>
+    <div id="products-stream-container" class="post-grid"></div>
+  </div>
+  <script type="module" src="./main.js"></script>
+  <script src="./posts.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => { renderList("PRODUCTS", "products-stream-container"); });
+  </script>
+</body>
+</html>

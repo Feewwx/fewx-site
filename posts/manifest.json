@@ -1,0 +1,9 @@
+[
+  {
+    "id": "home-001",
+    "title": "Welcome to FEWX Signal Station",
+    "date": "2026-06-25",
+    "section": "HOME",
+    "summary": "This is the first dynamic terminal stream transmitted via client-side markdown parsing architecture."
+  }
+]
