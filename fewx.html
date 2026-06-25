@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8" />
-  <title>FEWX - Socials</title>
-  <link rel="stylesheet" href="./style.css?v=2.0" />
+<!DOCTYPE html><html lang="zh">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="./style.css?v=5.0" />
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/" } }</script>
+<script type="module">import { marked } from "https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js"; window.marked = marked;</script>
 </head>
-<body>
-  <nav>
-    <a href="home.html">HOME</a>
-    <a href="products.html">PRODUCTS</a>
-    <a href="fewx.html" style="color: #ff0000;">FEWX</a>
-    <a href="log.html">LOG</a>
-  </nav>
-  <canvas id="scene"></canvas>
-  <div class="content-wrapper" style="text-align: center; max-width: 600px; margin: 120px auto 0 auto; background: rgba(0,0,0,0.5);">
-    <div class="section-title" style="border: none;">CONNECT</div>
-    <div style="display: flex; flex-direction: column; gap: 20px;">
-      <a href="https://github.com/" style="color: #fff; padding: 15px; border: 1px solid #333;">GitHub</a>
-      <a href="https://twitter.com/" style="color: #fff; padding: 15px; border: 1px solid #333;">Twitter</a>
-    </div>
+<title>FEWX - About</title><body>
+<div id="top-return-zone"></div>
+<nav><a href="home.html">HOME</a><a href="products.html">PRODUCTS</a><a href="fewx.html" style="color: #ff0000;">FEWX</a><a href="log.html">LOG</a></nav>
+<canvas id="scene"></canvas>
+<div class="content-wrapper fewx-wrapper">
+  <div class="avatar-circle"><span style="color:#fff;">Avatar</span></div>
+  <h1 style="color: #ffffff; margin-bottom: 24px; font-size: 48px; letter-spacing: 6px;">FEWX</h1>
+  <p style="color: #ccc; font-size: 18px; line-height: 2; margin-bottom: 40px; text-align: center; max-width: 700px;">
+    你好，这是我的个人终端。<br>所有的信仰与代码，都在这片红色的边界内流淌。
+  </p>
+  <div style="display: flex; gap: 30px;">
+    <a href="https://github.com" target="_blank" class="btn-social">GitHub</a>
+    <a href="https://twitter.com" target="_blank" class="btn-social">Twitter</a>
   </div>
-  <script type="module" src="./main.js"></script>
-</body>
-</html>
+</div>
+<script type="module" src="./main.js"></script>
+<script src="./posts.js"></script>
+<script src="./router.js"></script>
+</body></html>

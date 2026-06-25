@@ -1,28 +1,15 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEWX - Diaries</title>
-  <link rel="stylesheet" href="./style.css?v=2.0" />
-  <script type="importmap"> { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/" } } </script>
+<!DOCTYPE html><html lang="zh">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="./style.css?v=5.0" />
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/" } }</script>
+<script type="module">import { marked } from "https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js"; window.marked = marked;</script>
 </head>
-<body>
-  <nav>
-    <a href="home.html" style="color: #ff0000;">HOME</a>
-    <a href="products.html">PRODUCTS</a>
-    <a href="fewx.html">FEWX</a>
-    <a href="log.html">LOG</a>
-  </nav>
-  <canvas id="scene"></canvas>
-  <div class="content-wrapper">
-    <div class="section-title">DIARIES / 日记</div>
-    <div id="home-stream-container" class="post-grid"></div>
-  </div>
-  <script type="module" src="./main.js"></script>
-  <script src="./posts.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => { renderList("HOME", "home-stream-container"); });
-  </script>
-</body>
-</html>
+<title>FEWX - Diaries</title><body>
+<div id="top-return-zone"></div>
+<nav><a href="home.html" style="color: #ff0000;">HOME</a><a href="products.html">PRODUCTS</a><a href="fewx.html">FEWX</a><a href="log.html">LOG</a></nav>
+<canvas id="scene"></canvas>
+<div class="content-wrapper"><div class="section-title">DIARIES / 日记</div><div id="home-stream-container" class="post-grid"></div></div>
+<script type="module" src="./main.js"></script>
+<script src="./posts.js"></script>
+<script src="./router.js"></script>
+</body></html>
