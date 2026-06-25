@@ -128,23 +128,18 @@ nav a:hover {
 /* ==========================================
    📱 手机端自适应样式
    ========================================== */
-@media (max-width: 768px) {
+ @media (max-width: 768px) {
   nav {
     top: 24px;
     right: auto;
     left: 50%;
-    transform: translateX(-50%);
-    gap: 24px;
+    transform: translateX(-50%); /* 💡 手机端让导航栏在屏幕正中央水平居中 */
+    gap: 24px;                   /* 💡 缩小标签之间的间距 */
     width: 100%;
     justify-content: center;
   }
   nav a {
-    font-size: 15px !important;
+    font-size: 15px !important;  /* 💡 手机端精细字号，!important 确保绝对生效 */
     letter-spacing: 0.02em;
   }
-  .content-wrapper {
-    margin-top: 80px;
-    min-height: calc(100vh - 80px);
-    padding: 20px 24px;
-  }
-}
+} 
