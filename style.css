@@ -95,7 +95,7 @@ nav a:hover {
 
 .post-card:hover {
   transform: translateY(-5px);
-  border-color: #ff5500;
+  border-color: #ff0000;
 }
 
 .post-card h3 a {
@@ -119,7 +119,7 @@ nav a:hover {
 }
 
 .post-card .read-more {
-  color: #ff5500;
+  color: #ff0000;
   text-decoration: none;
   font-size: 14px;
   font-
