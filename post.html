@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FEWX - READING</title>
+  <link rel="stylesheet" href="./style.css?v=2.0" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <nav>
+    <a href="index.html">HOME</a>
+    <a href="products.html">PRODUCTS</a>
+    <a href="fewx.html">FEWX</a>
+    <a href="log.html">LOG</a>
+  </nav>
+
+  <canvas id="scene"></canvas>
+
+  <div class="content-wrapper">
+    <div class="article-container">
+      <a href="javascript:history.back()" class="back-btn">← BACK</a>
+      <h1 id="article-title" style="font-size: 32px; margin: 20px 0 10px 0;">Loading...</h1>
+      <div id="article-meta" style="color: #888; font-size: 14px; margin-bottom: 40px;"></div>
+      
+      <div id="article-content" class="markdown-body"></div>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+  
+  <script type="module">
+    import { marked } from 'https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js';
+    window.marked = marked; // 挂载到全局方便 posts.js 调用
+  </script>
+
+  <script src="./posts.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 检查 marked 是否加载完成，然后渲染文章
+      const checkTimer = setInterval(() => {
+        if (window.marked) {
+          clearInterval(checkTimer);
+          renderSinglePost();
+        }
+      }, 50);
+    });
+  </script>
+</body>
+</html>
