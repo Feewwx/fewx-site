@@ -122,4 +122,29 @@ nav a:hover {
   color: #ff0000;
   text-decoration: none;
   font-size: 14px;
-  font-
+  font-weight: bold;
+}
+
+/* ==========================================
+   📱 手机端自适应样式
+   ========================================== */
+@media (max-width: 768px) {
+  nav {
+    top: 24px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 24px;
+    width: 100%;
+    justify-content: center;
+  }
+  nav a {
+    font-size: 15px !important;
+    letter-spacing: 0.02em;
+  }
+  .content-wrapper {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    padding: 20px 24px;
+  }
+}
