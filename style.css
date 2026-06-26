@@ -60,3 +60,15 @@ nav a:hover { color: #ff0000; }
     padding: 60px 24px;
   }
 }
+
+/* 修改文字选中时的背景色和文字颜色 */
+::selection {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+
+/* 兼容 Firefox 浏览器 */
+::-moz-selection {
+  background-color: #ff0000;
+  color: #ffffff;
+}

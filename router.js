@@ -10,23 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
   initContent();
 
   document.body.addEventListener("click", async (e) => {
-    // 🌟 修复：单独拦截顶部返回区域的点击 🌟
+    let url = null;
     const returnZone = e.target.closest("#top-return-zone");
+    const link = e.target.closest("a");
+
     if (returnZone) {
-      const currentWrapper = document.querySelector(".content-wrapper");
-      if (currentWrapper) {
-        currentWrapper.classList.remove("animate-in");
-        currentWrapper.classList.add("animate-out");
-      }
-      // 动画结束后，跳回无 UI 的 3D 终端主页
-      setTimeout(() => { window.location.href = "index.html"; }, 500);
+      url = "index.html"; // 🚀 修复点1：点击顶部不再硬跳转，统一交给路由器处理
+    } else if (link) {
+      url = link.getAttribute("href");
+      if (!url || url.startsWith("http") || url.startsWith("javascript") || link.target === "_blank") return;
+    } else {
       return;
     }
 
-    const link = e.target.closest("a");
-    if (!link) return;
-    const url = link.getAttribute("href");
-    if (!url || url.startsWith("http") || url.startsWith("javascript") || link.target === "_blank") return;
     e.preventDefault();
     const currentPath = window.location.pathname.split("/").pop() || "index.html";
     if (url === currentPath) return;
@@ -42,11 +38,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const html = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
-      await new Promise(r => setTimeout(r, 500));
+
+      if (currentWrapper) await new Promise(r => setTimeout(r, 500));
+
       const newWrapper = doc.querySelector(".content-wrapper");
-      if (currentWrapper && newWrapper) currentWrapper.replaceWith(newWrapper);
+      // 🚀 修复点2：智能处理主页(无wrapper)与子页(有wrapper)的进出状态
+      if (currentWrapper && newWrapper) {
+        currentWrapper.replaceWith(newWrapper); // 子页切子页
+      } else if (currentWrapper && !newWrapper) {
+        currentWrapper.remove(); // 子页回主页
+      } else if (!currentWrapper && newWrapper) {
+        document.body.appendChild(newWrapper); // 主页进子页
+      }
+
       const newNav = doc.querySelector("nav");
-      if (newNav) document.querySelector("nav").innerHTML = newNav.innerHTML;
+      const currentNav = document.querySelector("nav");
+      if (newNav && currentNav) currentNav.innerHTML = newNav.innerHTML;
+
       document.title = doc.title;
       history.pushState({}, "", url);
       initContent();

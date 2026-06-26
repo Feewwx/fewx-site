@@ -40,6 +40,7 @@ async function renderList(sectionName, containerId) {
 
 // 3. 详情页渲染逻辑 (用于 post.html)
 async function renderSinglePost() {
+    const { marked } = await import("https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js");
     // 从 URL 中获取文章 ID (例如: post.html?id=home-001)
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
