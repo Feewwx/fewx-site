@@ -1,67 +1,111 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const initContent = () => {
-    const wrapper = document.querySelector(".content-wrapper");
-    if(wrapper) wrapper.classList.add("animate-in");
-    if (document.getElementById("home-stream-container") && typeof renderList === "function") renderList("HOME", "home-stream-container");
-    if (document.getElementById("log-stream-container") && typeof renderList === "function") renderList("LOG", "log-stream-container");
-    if (document.getElementById("products-stream-container") && typeof renderList === "function") renderList("PRODUCTS", "products-stream-container");
-    if (document.getElementById("article-content") && typeof renderSinglePost === "function") renderSinglePost();
-  };
-  initContent();
+  // 📢 验证标记：如果控制台没打印这行，说明浏览器还在读你的旧缓存！
+  console.log("🚀 真正的新路由已全盘接管，缓存已清除！");
 
-  document.body.addEventListener("click", async (e) => {
-    let url = null;
-    const returnZone = e.target.closest("#top-return-zone");
-    const link = e.target.closest("a");
+  // 1. 隐藏/显示主页返回按钮
+  const checkReturnZone = () => {
+    const returnZone = document.getElementById("top-return-zone");
+    if (returnZone) {
+      const path = window.location.pathname.split("/").pop();
+      // 主页隐藏，子页显示
+      returnZone.style.display = (!path || path === "index.html") ? "none" : "flex";
+    }
+  };
 
-    if (returnZone) {
-      url = "index.html"; // 🚀 修复点1：点击顶部不再硬跳转，统一交给路由器处理
-    } else if (link) {
-      url = link.getAttribute("href");
-      if (!url || url.startsWith("http") || url.startsWith("javascript") || link.target === "_blank") return;
-    } else {
-      return;
-    }
+  // 2. 触发数据渲染
+  const runRenders = () => {
+    if (document.getElementById("home-stream-container") && typeof renderList === "function") renderList("HOME", "home-stream-container");
+    if (document.getElementById("log-stream-container") && typeof renderList === "function") renderList("LOG", "log-stream-container");
+    if (document.getElementById("products-stream-container") && typeof renderList === "function") renderList("PRODUCTS", "products-stream-container");
+    if (document.getElementById("article-content") && typeof renderSinglePost === "function") renderSinglePost();
+  };
 
-    e.preventDefault();
-    const currentPath = window.location.pathname.split("/").pop() || "index.html";
-    if (url === currentPath) return;
+  const initPage = () => {
+    checkReturnZone();
+    const wrapper = document.querySelector(".content-wrapper");
+    if (wrapper) wrapper.classList.add("animate-in");
+    runRenders();
+  };
 
-    const currentWrapper = document.querySelector(".content-wrapper");
-    if (currentWrapper) {
-      currentWrapper.classList.remove("animate-in");
-      currentWrapper.classList.add("animate-out");
-    }
+  // 首次进入页面初始化
+  initPage();
 
-    try {
-      const response = await fetch(url);
-      const html = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
+  // 3. 核心路由驱动引擎（统一处理点击、返回、前进）
+  const navigate = async (url, isPushState = true) => {
+    const currentWrapper = document.querySelector(".content-wrapper");
+    if (currentWrapper) {
+      currentWrapper.classList.remove("animate-in");
+      currentWrapper.classList.add("animate-out");
+      await new Promise(r => setTimeout(r, 400)); // 等待淡出动画
+    }
 
-      if (currentWrapper) await new Promise(r => setTimeout(r, 500));
+    try {
+      const response = await fetch(url);
+      const html = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      const newWrapper = doc.querySelector(".content-wrapper");
 
-      const newWrapper = doc.querySelector(".content-wrapper");
-      // 🚀 修复点2：智能处理主页(无wrapper)与子页(有wrapper)的进出状态
-      if (currentWrapper && newWrapper) {
-        currentWrapper.replaceWith(newWrapper); // 子页切子页
-      } else if (currentWrapper && !newWrapper) {
-        currentWrapper.remove(); // 子页回主页
-      } else if (!currentWrapper && newWrapper) {
-        document.body.appendChild(newWrapper); // 主页进子页
-      }
+      // DOM 替换流
+      if (currentWrapper && newWrapper) {
+        currentWrapper.replaceWith(newWrapper);
+      } else if (currentWrapper && !newWrapper) {
+        currentWrapper.remove();
+      } else if (!currentWrapper && newWrapper) {
+        document.body.appendChild(newWrapper);
+      }
 
-      const newNav = doc.querySelector("nav");
-      const currentNav = document.querySelector("nav");
-      if (newNav && currentNav) currentNav.innerHTML = newNav.innerHTML;
+      const newNav = doc.querySelector("nav");
+      const currentNav = document.querySelector("nav");
+      if (newNav && currentNav) currentNav.innerHTML = newNav.innerHTML;
 
-      document.title = doc.title;
-      history.pushState({}, "", url);
-      initContent();
-    } catch (err) {
-      console.error("无缝路由失败:", err);
-      window.location.href = url;
-    }
-  });
-  window.addEventListener("popstate", () => { window.location.reload(); });
+      document.title = doc.title;
+      if (isPushState) history.pushState({}, "", url);
+
+      // 🔥 核心修复：强行激活新页面中被 DOMParser 搞死的 Script 脚本
+      if (newWrapper) {
+        const scripts = newWrapper.querySelectorAll("script");
+        scripts.forEach(oldScript => {
+          const newScript = document.createElement("script");
+          Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+          newScript.textContent = oldScript.textContent;
+          oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
+      }
+
+      // 重新初始化新页面逻辑
+      initPage();
+    } catch (err) {
+      console.error("无缝路由降级:", err);
+      window.location.href = url;
+    }
+  };
+
+  // 全局劫持点击事件
+  document.addEventListener("click", (e) => {
+    const returnZone = e.target.closest("#top-return-zone");
+    const link = e.target.closest("a");
+    let url = null;
+
+    if (returnZone) {
+      url = "index.html";
+    } else if (link) {
+      url = link.getAttribute("href");
+      if (!url || url.startsWith("http") || url.startsWith("javascript") || link.target === "_blank") return;
+    } else {
+      return;
+    }
+
+    e.preventDefault();
+    const currentPath = window.location.pathname.split("/").pop() || "index.html";
+    if (url === currentPath) return;
+
+    navigate(url, true);
+  });
+
+  // 🔥 核心修复：彻底删掉 window.location.reload()！用单页动画过渡接管浏览器 Back 键
+  window.addEventListener("popstate", () => {
+    const targetUrl = window.location.pathname.split("/").pop() || "index.html";
+    navigate(targetUrl, false); // false 代表不再重复推入历史记录
+  });
 });
