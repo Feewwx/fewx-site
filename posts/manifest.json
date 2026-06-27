@@ -1,16 +1,16 @@
 [
   {
     "id": "home-001",
-    "title": "Welcome to FEWX Signal Station",
+    "title": "Welcome to FEWX'S Home",
     "date": "2026-06-25",
     "section": "HOME",
-    "summary": "This is the first dynamic terminal stream..."
+    "summary": "这是我的第一个日记"
   },
   {
     "id": "product-alice",
-    "title": "Project ALICE Released",
-    "date": "2026-06-27",
+    "title": "Code",
+    "date": "2025-12-10",
     "section": "PRODUCTS",
-    "summary": "产品 ALICE 的简短介绍..."
+    "summary": "我的代码学习日记"
   }
 ]
