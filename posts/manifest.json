@@ -4,6 +4,13 @@
     "title": "Welcome to FEWX Signal Station",
     "date": "2026-06-25",
     "section": "HOME",
-    "summary": "This is the first dynamic terminal stream transmitted via client-side markdown parsing architecture."
+    "summary": "This is the first dynamic terminal stream..."
+  },
+  {
+    "id": "product-alice",
+    "title": "Project ALICE Released",
+    "date": "2026-06-27",
+    "section": "PRODUCTS",
+    "summary": "产品 ALICE 的简短介绍..."
   }
 ]
