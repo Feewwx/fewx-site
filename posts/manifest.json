@@ -1,16 +1,23 @@
 [
   {
-    "id": "home-001",
+    "id": "home-26-6-22",
     "title": "Welcome to FEWX'S Home",
     "date": "2026-06-25",
     "section": "HOME",
     "summary": "这是我的第一个日记"
   },
   {
-    "id": "product-alice",
+    "id": "product-code",
     "title": "Code",
     "date": "2025-12-10",
     "section": "PRODUCTS",
-    "summary": "我的代码学习日记"
+    "summary": "我的代码学习日记--更新中"
+  },
+  {
+    "id": "product-fewx-site",
+    "title": "Fewx-Site",
+    "date": "2026-6-22",
+    "section": "PRODUCTS",
+    "summary": "我的博客--更新中"
   }
 ]
