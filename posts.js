@@ -67,11 +67,15 @@ async function renderSinglePost() {
         // 请求真实的 Markdown 文件
         const response = await fetch(`./posts/${postId}.md`);
         if (!response.ok) throw new Error("Markdown file not found");
-        
-        const markdownText = await response.json ? await response.text() : await response.text();
-        
-        // 使用 marked 将 Markdown 源码转换成 HTML
-        document.getElementById('article-content').innerHTML = window.marked.parse(markdownText);
+
+        const markdownText = await response.text();
+
+        // 使用本函数顶部动态 import 进来的 marked（而不是 window.marked）。
+        // window.marked 是靠每个页面 <head> 里的一段 <script type="module"> 设置的，
+        // 但路由切换时只替换 .content-wrapper 和 nav，<head> 里的脚本永远不会重新执行——
+        // 如果用户是从一个没有这段 head 脚本的页面（比如 index.html）一路点过来的，
+        // window.marked 全程都是 undefined，文章正文就会一直报"无法加载"。
+        document.getElementById('article-content').innerHTML = marked.parse(markdownText);
     } catch (error) {
         console.error(error);
         document.getElementById('article-content').innerHTML = `<p style="color:red;">无法加载文章正文内容 (${error.message})</p>`;
