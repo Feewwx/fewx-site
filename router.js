@@ -17,6 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 1.5 标记当前页 nav 高亮
+  const markActiveNav = () => {
+    const path = window.location.pathname.split("/").pop() || "index.html";
+    document.querySelectorAll("nav a").forEach((a) => {
+      a.classList.toggle("active", a.getAttribute("href") === path);
+    });
+  };
+
   // 2. 触发数据渲染
   const runRenders = () => {
     if (document.getElementById("home-stream-container") && typeof renderList === "function") renderList("HOME", "home-stream-container");
@@ -37,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const initPage = (newWrapper) => {
     checkReturnZone();
+    markActiveNav();
     playEnter(newWrapper || document.querySelector(".content-wrapper"));
     runRenders();
   };
@@ -89,9 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.appendChild(newWrapper);
     }
 
-    const newNav = doc.querySelector("nav");
-    const currentNav = document.querySelector("nav");
-    if (newNav && currentNav) currentNav.innerHTML = newNav.innerHTML;
 
     document.title = doc.title;
     if (isPushState) history.pushState({}, "", url);
@@ -120,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (returnZone) {
       url = "index.html";
     } else if (link) {
+      if (e.ctrlKey || e.metaKey || e.shiftKey) return;
       url = link.getAttribute("href");
       if (!url || url.startsWith("http") || url.startsWith("javascript") || link.target === "_blank") return;
     } else {

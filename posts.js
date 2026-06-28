@@ -15,6 +15,7 @@ async function fetchManifest() {
 async function renderList(sectionName, containerId) {
     const manifest = await fetchManifest();
     const posts = manifest.filter(post => post.section === sectionName);
+    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
     const container = document.getElementById(containerId);
     
     if (!container) return;
