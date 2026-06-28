@@ -129,7 +129,8 @@ loader.load(
             side: THREE.FrontSide
           });
           
-          cubeFX = attachCubeInteraction({ mesh: cubeMesh, domElement: renderer.domElement });
+          const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          cubeFX = attachCubeInteraction({ mesh: cubeMesh, domElement: renderer.domElement, idleSpin: prefersReducedMotion ? 0 : 0.05 });
           
         } else if (child.name === 'black') {
           child.material = new THREE.MeshBasicMaterial({ color: 0x000000 });
