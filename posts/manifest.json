@@ -20,6 +20,13 @@
     "section": "HOME",
     "summary": "✌️"
   },
+  {
+    "id": "home-26-07-06",
+    "title": "为什么连续四天没写一点代码",
+    "date": "2026-07-06",
+    "section": "HOME",
+    "summary": "好累"
+  },
 
 
 
@@ -60,5 +67,12 @@
       "date": "2026-06-30",
       "section": "LOG",
       "summary": "有关数组的指针总结"
+  },
+  {
+      "id": "C_26-07-06-11-37PM",
+      "title": "C 26-07-01-11-02PM",
+      "date": "2026-07-06",
+      "section": "LOG",
+      "summary": "一维数组和二维数组的传参"
   }
 ]
