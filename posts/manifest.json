@@ -109,5 +109,61 @@
       "date": "2026-07-21",
       "section": "LOG",
       "summary": "字符串函数的初步学习"
+  },
+  {
+      "id": "C_26-07-23-11-27PM",
+      "title": "C 26-07-23-11-27PM",
+      "date": "2026-07-23",
+      "section": "LOG",
+      "summary": "strcat函数"
+  },
+  {
+      "id": "C_26-07-24-09-34PM",
+      "title": "C 26-07-24-09-34PM",
+      "date": "2026-07-24",
+      "section": "LOG",
+      "summary": "strcmp函数"
+  },
+  {
+      "id": "C_26-07-26-08-24PM",
+      "title": "C 26-07-26-08-24PM",
+      "date": "2026-07-26",
+      "section": "LOG",
+      "summary": "长度受限函数制的字符串函数和strstr函数"
+  },
+  {
+      "id": "C_26-07-27-10-30PM",
+      "title": "C 26-07-27-10-30PM",
+      "date": "2026-07-27",
+      "section": "LOG",
+      "summary": "strtok函数"
+  },
+  {
+      "id": "C_26-07-28-09-54PM",
+      "title": "C 26-07-28-09-54PM",
+      "date": "2026-07-28",
+      "section": "LOG",
+      "summary": "strerror函数,字符分类函数,字符转换函数和memcpy函数"
+  },
+  {
+      "id": "C_26-07-29-07-42PM",
+      "title": "C 26-07-29-07-42PM",
+      "date": "2026-07-29",
+      "section": "LOG",
+      "summary": "memmove函数"
+  },
+  {
+      "id": "C_26-08-05-09-01PM",
+      "title": "C 26-08-05-09-01PM",
+      "date": "2026-08-05",
+      "section": "LOG",
+      "summary": "memcmp函数"
+  },
+  {
+      "id": "C_26-08-06-12-52PM",
+      "title": "C 26-08-06-12-52PM",
+      "date": "2026-08-06",
+      "section": "LOG",
+      "summary": "memset函数"
   }
 ]
