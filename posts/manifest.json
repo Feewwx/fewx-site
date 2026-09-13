@@ -27,6 +27,13 @@
     "section": "HOME",
     "summary": "好累"
   },
+  {
+    "id": "home-26-09-13",
+    "title": "C 语言学完了",
+    "date": "2026-09-13",
+    "section": "HOME",
+    "summary": "两个半月,5400 多行笔记"
+  },
 
 
 
@@ -312,5 +319,12 @@
       "date": "2026-09-13",
       "section": "LOG",
       "summary": "条件编译"
+  },
+  {
+      "id": "C_26-09-13-10-00PM",
+      "title": "C 26-09-13-10-00PM",
+      "date": "2026-09-13",
+      "section": "LOG",
+      "summary": "完结撒花"
   }
 ]
