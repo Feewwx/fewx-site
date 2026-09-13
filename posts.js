@@ -12,10 +12,28 @@ async function fetchManifest() {
 }
 
 // 2. 列表页渲染逻辑 (用于 index.html, products.html, log.html)
+
+// 排序键：同一天的文章，再去文件名里把时分抠出来分先后。
+//
+// 为什么需要这个：manifest 里的 date 只精确到天（"2026-09-13"），同一天的所有文章
+// 比较结果全是 0，排序就退化成"看它们在数组里谁先谁后"——那是运气，不是顺序。
+// 而时间其实一直在文件名里（C_26-09-13-10-00PM），只是排序没读它。
+//
+// 文件名末尾匹配 -HH-MMAM / -HH-MMPM，抠出来换算成分钟加到当天的零点上。
+// 匹配不上的（比如 HOME 的 home-26-09-13 没有时分）就只用日期，行为跟以前一样。
+function sortKey(post) {
+    const base = new Date(post.date).getTime() || 0;
+    const m = String(post.id).match(/-(\d{2})-(\d{2})(AM|PM)$/);
+    if (!m) return base;
+    let hour = parseInt(m[1], 10) % 12;      // 12AM→0, 12PM→12 靠这两步修
+    if (m[3] === 'PM') hour += 12;
+    return base + (hour * 60 + parseInt(m[2], 10)) * 60000;
+}
+
 async function renderList(sectionName, containerId) {
     const manifest = await fetchManifest();
     const posts = manifest.filter(post => post.section === sectionName);
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    posts.sort((a, b) => sortKey(b) - sortKey(a));
     const container = document.getElementById(containerId);
     
     if (!container) return;
