@@ -41,9 +41,6 @@
     "section": "HOME",
     "summary": "难的不是编译,是怎么编译得好"
   },
-
-
-
   {
     "id": "product-code",
     "title": "Code",
@@ -58,280 +55,438 @@
     "section": "PRODUCTS",
     "summary": "我的博客--更新中"
   },
-
-
-
   {
-      "id": "log-26-06-27",
-      "title": "log-26-06-27",
-      "date": "2026-06-27",
-      "section": "LOG",
-      "summary": "这是一个测试日志"
+    "id": "log-26-06-27",
+    "title": "log-26-06-27",
+    "date": "2026-06-27",
+    "section": "LOG",
+    "summary": "这是一个测试日志"
   },
   {
-      "id": "C_26-06-28-08-20PM",
-      "title": "C 26-6-28-08-20PM",
-      "date": "2026-06-28",
-      "section": "LOG",
-      "summary": "数组指针的使用"
+    "id": "C_26-06-28-08-20PM",
+    "title": "C 26-6-28-08-20PM",
+    "date": "2026-06-28",
+    "section": "LOG",
+    "summary": "数组指针的使用"
   },
   {
-      "id": "C_26-06-30-11-02PM",
-      "title": "C 26-06-30-11-02PM",
-      "date": "2026-06-30",
-      "section": "LOG",
-      "summary": "有关数组的指针总结"
+    "id": "C_26-06-30-11-02PM",
+    "title": "C 26-06-30-11-02PM",
+    "date": "2026-06-30",
+    "section": "LOG",
+    "summary": "有关数组的指针总结"
   },
   {
-      "id": "C_26-07-06-11-37PM",
-      "title": "C 26-07-06-11-02PM",
-      "date": "2026-07-06",
-      "section": "LOG",
-      "summary": "一维数组和二维数组的传参"
+    "id": "C_26-07-06-11-37PM",
+    "title": "C 26-07-06-11-02PM",
+    "date": "2026-07-06",
+    "section": "LOG",
+    "summary": "一维数组和二维数组的传参"
   },
   {
-      "id": "C_26-07-07-11-40PM",
-      "title": "C 26-07-07-11-37PM",
-      "date": "2026-07-07",
-      "section": "LOG",
-      "summary": "一维二维指针传参和函数指针"
+    "id": "C_26-07-07-11-40PM",
+    "title": "C 26-07-07-11-37PM",
+    "date": "2026-07-07",
+    "section": "LOG",
+    "summary": "一维二维指针传参和函数指针"
   },
   {
-      "id": "C_26-07-10-11-05PM",
-      "title": "C 26-07-10-11-05PM",
-      "date": "2026-07-10",
-      "section": "LOG",
-      "summary": "指针练习,函数指针的用途和函数指针数组"
+    "id": "C_26-07-10-11-05PM",
+    "title": "C 26-07-10-11-05PM",
+    "date": "2026-07-10",
+    "section": "LOG",
+    "summary": "指针练习,函数指针的用途和函数指针数组"
   },
   {
-      "id": "C_26-07-11-11-35PM",
-      "title": "C 26-07-11-11-35PM",
-      "date": "2026-07-11",
-      "section": "LOG",
-      "summary": "函数指针数组练习和指向函数指针数组的指针"
+    "id": "C_26-07-11-11-35PM",
+    "title": "C 26-07-11-11-35PM",
+    "date": "2026-07-11",
+    "section": "LOG",
+    "summary": "函数指针数组练习和指向函数指针数组的指针"
   },
   {
-      "id": "C_26-07-14-11-25PM",
-      "title": "C 26-07-14-11-25PM",
-      "date": "2026-07-14",
-      "section": "LOG",
-      "summary": "回调函数"
+    "id": "C_26-07-14-11-25PM",
+    "title": "C 26-07-14-11-25PM",
+    "date": "2026-07-14",
+    "section": "LOG",
+    "summary": "回调函数"
   },
   {
-      "id": "C_26-07-21-07-25PM",
-      "title": "C 26-07-21-07-25PM",
-      "date": "2026-07-21",
-      "section": "LOG",
-      "summary": "字符串函数的初步学习"
+    "id": "C_26-07-21-07-25PM",
+    "title": "C 26-07-21-07-25PM",
+    "date": "2026-07-21",
+    "section": "LOG",
+    "summary": "字符串函数的初步学习"
   },
   {
-      "id": "C_26-07-23-11-27PM",
-      "title": "C 26-07-23-11-27PM",
-      "date": "2026-07-23",
-      "section": "LOG",
-      "summary": "strcat函数"
+    "id": "C_26-07-23-11-27PM",
+    "title": "C 26-07-23-11-27PM",
+    "date": "2026-07-23",
+    "section": "LOG",
+    "summary": "strcat函数"
   },
   {
-      "id": "C_26-07-24-09-34PM",
-      "title": "C 26-07-24-09-34PM",
-      "date": "2026-07-24",
-      "section": "LOG",
-      "summary": "strcmp函数"
+    "id": "C_26-07-24-09-34PM",
+    "title": "C 26-07-24-09-34PM",
+    "date": "2026-07-24",
+    "section": "LOG",
+    "summary": "strcmp函数"
   },
   {
-      "id": "C_26-07-26-08-24PM",
-      "title": "C 26-07-26-08-24PM",
-      "date": "2026-07-26",
-      "section": "LOG",
-      "summary": "长度受限函数制的字符串函数和strstr函数"
+    "id": "C_26-07-26-08-24PM",
+    "title": "C 26-07-26-08-24PM",
+    "date": "2026-07-26",
+    "section": "LOG",
+    "summary": "长度受限函数制的字符串函数和strstr函数"
   },
   {
-      "id": "C_26-07-27-10-30PM",
-      "title": "C 26-07-27-10-30PM",
-      "date": "2026-07-27",
-      "section": "LOG",
-      "summary": "strtok函数"
+    "id": "C_26-07-27-10-30PM",
+    "title": "C 26-07-27-10-30PM",
+    "date": "2026-07-27",
+    "section": "LOG",
+    "summary": "strtok函数"
   },
   {
-      "id": "C_26-07-28-09-54PM",
-      "title": "C 26-07-28-09-54PM",
-      "date": "2026-07-28",
-      "section": "LOG",
-      "summary": "strerror函数,字符分类函数,字符转换函数和memcpy函数"
+    "id": "C_26-07-28-09-54PM",
+    "title": "C 26-07-28-09-54PM",
+    "date": "2026-07-28",
+    "section": "LOG",
+    "summary": "strerror函数,字符分类函数,字符转换函数和memcpy函数"
   },
   {
-      "id": "C_26-07-29-07-42PM",
-      "title": "C 26-07-29-07-42PM",
-      "date": "2026-07-29",
-      "section": "LOG",
-      "summary": "memmove函数"
+    "id": "C_26-07-29-07-42PM",
+    "title": "C 26-07-29-07-42PM",
+    "date": "2026-07-29",
+    "section": "LOG",
+    "summary": "memmove函数"
   },
   {
-      "id": "C_26-08-05-09-01PM",
-      "title": "C 26-08-05-09-01PM",
-      "date": "2026-08-05",
-      "section": "LOG",
-      "summary": "memcmp函数"
+    "id": "C_26-08-05-09-01PM",
+    "title": "C 26-08-05-09-01PM",
+    "date": "2026-08-05",
+    "section": "LOG",
+    "summary": "memcmp函数"
   },
   {
-      "id": "C_26-08-06-12-52PM",
-      "title": "C 26-08-06-12-52PM",
-      "date": "2026-08-06",
-      "section": "LOG",
-      "summary": "memset函数"
+    "id": "C_26-08-06-12-52PM",
+    "title": "C 26-08-06-12-52PM",
+    "date": "2026-08-06",
+    "section": "LOG",
+    "summary": "memset函数"
   },
   {
-      "id": "C_26-08-10-08-34PM",
-      "title": "C 26-08-10-08-34PM",
-      "date": "2026-08-10",
-      "section": "LOG",
-      "summary": "结构体类型的声明&&结构体变量的定义和初始化"
+    "id": "C_26-08-10-08-34PM",
+    "title": "C 26-08-10-08-34PM",
+    "date": "2026-08-10",
+    "section": "LOG",
+    "summary": "结构体类型的声明&&结构体变量的定义和初始化"
   },
   {
-      "id": "C_26-08-12-07-21PM",
-      "title": "C 26-08-12-07-21PM",
-      "date": "2026-08-12",
-      "section": "LOG",
-      "summary": "结构体的自引用"
+    "id": "C_26-08-12-07-21PM",
+    "title": "C 26-08-12-07-21PM",
+    "date": "2026-08-12",
+    "section": "LOG",
+    "summary": "结构体的自引用"
   },
   {
-      "id": "C_26-08-13-10-42PM",
-      "title": "C 26-08-13-10-42PM",
-      "date": "2026-08-13",
-      "section": "LOG",
-      "summary": "结构体内存对齐"
+    "id": "C_26-08-13-10-42PM",
+    "title": "C 26-08-13-10-42PM",
+    "date": "2026-08-13",
+    "section": "LOG",
+    "summary": "结构体内存对齐"
   },
   {
-      "id": "C_26-08-15-09-12PM",
-      "title": "C 26-08-15-09-12PM",
-      "date": "2026-08-15",
-      "section": "LOG",
-      "summary": "结构体传参"
+    "id": "C_26-08-15-09-12PM",
+    "title": "C 26-08-15-09-12PM",
+    "date": "2026-08-15",
+    "section": "LOG",
+    "summary": "结构体传参"
   },
   {
-      "id": "C_26-08-17-09-30PM",
-      "title": "C 26-08-17-09-30PM",
-      "date": "2026-08-17",
-      "section": "LOG",
-      "summary": "结构体实现位段"
+    "id": "C_26-08-17-09-30PM",
+    "title": "C 26-08-17-09-30PM",
+    "date": "2026-08-17",
+    "section": "LOG",
+    "summary": "结构体实现位段"
   },
   {
-      "id": "C_26-08-21-05-20PM",
-      "title": "C 26-08-21-05-20PM",
-      "date": "2026-08-21",
-      "section": "LOG",
-      "summary": "练习:通讯录"
+    "id": "C_26-08-21-05-20PM",
+    "title": "C 26-08-21-05-20PM",
+    "date": "2026-08-21",
+    "section": "LOG",
+    "summary": "练习:通讯录"
   },
   {
-      "id": "C_26-08-24-05-15PM",
-      "title": "C 26-08-24-05-15PM",
-      "date": "2026-08-24",
-      "section": "LOG",
-      "summary": "枚举"
+    "id": "C_26-08-24-05-15PM",
+    "title": "C 26-08-24-05-15PM",
+    "date": "2026-08-24",
+    "section": "LOG",
+    "summary": "枚举"
   },
   {
-      "id": "C_26-08-25-02-35PM",
-      "title": "C 26-08-25-02-35PM",
-      "date": "2026-08-25",
-      "section": "LOG",
-      "summary": "联合(共用体)"
+    "id": "C_26-08-25-02-35PM",
+    "title": "C 26-08-25-02-35PM",
+    "date": "2026-08-25",
+    "section": "LOG",
+    "summary": "联合(共用体)"
   },
   {
-      "id": "C_26-08-26-06-35PM",
-      "title": "C 26-08-26-06-35PM",
-      "date": "2026-08-26",
-      "section": "LOG",
-      "summary": "malloc和free"
+    "id": "C_26-08-26-06-35PM",
+    "title": "C 26-08-26-06-35PM",
+    "date": "2026-08-26",
+    "section": "LOG",
+    "summary": "malloc和free"
   },
   {
-      "id": "C_26-08-26-06-50PM",
-      "title": "C 26-08-26-06-50PM",
-      "date": "2026-08-26",
-      "section": "LOG",
-      "summary": "calloc"
+    "id": "C_26-08-26-06-50PM",
+    "title": "C 26-08-26-06-50PM",
+    "date": "2026-08-26",
+    "section": "LOG",
+    "summary": "calloc"
   },
   {
-      "id": "C_26-08-27-02-05PM",
-      "title": "C 26-08-27-02-05PM",
-      "date": "2026-08-27",
-      "section": "LOG",
-      "summary": "realloc"
+    "id": "C_26-08-27-02-05PM",
+    "title": "C 26-08-27-02-05PM",
+    "date": "2026-08-27",
+    "section": "LOG",
+    "summary": "realloc"
   },
   {
-      "id": "C_26-08-28-03-45PM",
-      "title": "C 26-08-28-03-45PM",
-      "date": "2026-08-28",
-      "section": "LOG",
-      "summary": "柔性数组"
+    "id": "C_26-08-28-03-45PM",
+    "title": "C 26-08-28-03-45PM",
+    "date": "2026-08-28",
+    "section": "LOG",
+    "summary": "柔性数组"
   },
   {
-      "id": "C_26-09-07-03-05PM",
-      "title": "C 26-09-07-03-05PM",
-      "date": "2026-09-07",
-      "section": "LOG",
-      "summary": "为什么使用文件和文件分类"
+    "id": "C_26-09-07-03-05PM",
+    "title": "C 26-09-07-03-05PM",
+    "date": "2026-09-07",
+    "section": "LOG",
+    "summary": "为什么使用文件和文件分类"
   },
   {
-      "id": "C_26-09-07-03-30PM",
-      "title": "C 26-09-07-03-30PM",
-      "date": "2026-09-07",
-      "section": "LOG",
-      "summary": "文件的打开和关闭"
+    "id": "C_26-09-07-03-30PM",
+    "title": "C 26-09-07-03-30PM",
+    "date": "2026-09-07",
+    "section": "LOG",
+    "summary": "文件的打开和关闭"
   },
   {
-      "id": "C_26-09-09-11-20AM",
-      "title": "C 26-09-09-11-20AM",
-      "date": "2026-09-09",
-      "section": "LOG",
-      "summary": "fopen、fclose和字符读写"
+    "id": "C_26-09-09-11-20AM",
+    "title": "C 26-09-09-11-20AM",
+    "date": "2026-09-09",
+    "section": "LOG",
+    "summary": "fopen、fclose和字符读写"
   },
   {
-      "id": "C_26-09-10-10-00PM",
-      "title": "C 26-09-10-10-00PM",
-      "date": "2026-09-10",
-      "section": "LOG",
-      "summary": "fscanf、fprintf和fread、fwrite"
+    "id": "C_26-09-10-10-00PM",
+    "title": "C 26-09-10-10-00PM",
+    "date": "2026-09-10",
+    "section": "LOG",
+    "summary": "fscanf、fprintf和fread、fwrite"
   },
   {
-      "id": "C_26-09-13-11-45AM",
-      "title": "C 26-09-13-11-45AM",
-      "date": "2026-09-13",
-      "section": "LOG",
-      "summary": "文件定位、状态和杂项"
+    "id": "C_26-09-13-11-45AM",
+    "title": "C 26-09-13-11-45AM",
+    "date": "2026-09-13",
+    "section": "LOG",
+    "summary": "文件定位、状态和杂项"
   },
   {
-      "id": "C_26-09-13-12-05PM",
-      "title": "C 26-09-13-12-05PM",
-      "date": "2026-09-13",
-      "section": "LOG",
-      "summary": "编译和链接"
+    "id": "C_26-09-13-12-05PM",
+    "title": "C 26-09-13-12-05PM",
+    "date": "2026-09-13",
+    "section": "LOG",
+    "summary": "编译和链接"
   },
   {
-      "id": "C_26-09-13-05-30PM",
-      "title": "C 26-09-13-05-30PM",
-      "date": "2026-09-13",
-      "section": "LOG",
-      "summary": "define定义常量和宏"
+    "id": "C_26-09-13-05-30PM",
+    "title": "C 26-09-13-05-30PM",
+    "date": "2026-09-13",
+    "section": "LOG",
+    "summary": "define定义常量和宏"
   },
   {
-      "id": "C_26-09-13-05-35PM",
-      "title": "C 26-09-13-05-35PM",
-      "date": "2026-09-13",
-      "section": "LOG",
-      "summary": "# 和 ##"
+    "id": "C_26-09-13-05-35PM",
+    "title": "C 26-09-13-05-35PM",
+    "date": "2026-09-13",
+    "section": "LOG",
+    "summary": "# 和 ##"
   },
   {
-      "id": "C_26-09-13-05-40PM",
-      "title": "C 26-09-13-05-40PM",
-      "date": "2026-09-13",
-      "section": "LOG",
-      "summary": "条件编译"
+    "id": "C_26-09-13-05-40PM",
+    "title": "C 26-09-13-05-40PM",
+    "date": "2026-09-13",
+    "section": "LOG",
+    "summary": "条件编译"
   },
   {
-      "id": "C_26-09-13-10-00PM",
-      "title": "C 26-09-13-10-00PM",
-      "date": "2026-09-13",
-      "section": "LOG",
-      "summary": "完结撒花"
+    "id": "C_26-09-13-10-00PM",
+    "title": "C 26-09-13-10-00PM",
+    "date": "2026-09-13",
+    "section": "LOG",
+    "summary": "完结撒花"
+  },
+  {
+    "id": "CMake_26-09-16-10-16PM",
+    "title": "CMake 26-09-16-10-16PM",
+    "date": "2026-09-16",
+    "section": "LOG",
+    "summary": "CMake 是什么、跟 make 什么关系"
+  },
+  {
+    "id": "CMake_26-09-16-10-21PM",
+    "title": "CMake 26-09-16-10-21PM",
+    "date": "2026-09-16",
+    "section": "LOG",
+    "summary": "行注释和块注释"
+  },
+  {
+    "id": "CMake_26-09-16-10-26PM",
+    "title": "CMake 26-09-16-10-26PM",
+    "date": "2026-09-16",
+    "section": "LOG",
+    "summary": "共处一室的准备工作到 CMakeLists.txt"
+  },
+  {
+    "id": "CMake_26-09-16-10-31PM",
+    "title": "CMake 26-09-16-10-31PM",
+    "date": "2026-09-16",
+    "section": "LOG",
+    "summary": "敲 cmake 之后生成了什么"
+  },
+  {
+    "id": "CMake_26-09-20-04-09PM",
+    "title": "CMake 26-09-20-04-09PM",
+    "date": "2026-09-20",
+    "section": "LOG",
+    "summary": "build 目录的意义"
+  },
+  {
+    "id": "CMake_26-09-21-10-57PM",
+    "title": "CMake 26-09-21-10-57PM",
+    "date": "2026-09-21",
+    "section": "LOG",
+    "summary": "定义变量、指定 C++ 标准、指定输出路径"
+  },
+  {
+    "id": "CMake_26-09-24-06-14PM",
+    "title": "CMake 26-09-24-06-14PM",
+    "date": "2026-09-24",
+    "section": "LOG",
+    "summary": "aux_source_directory 和 file"
+  },
+  {
+    "id": "CMake_26-09-26-11-41PM",
+    "title": "CMake 26-09-26-11-41PM",
+    "date": "2026-09-26",
+    "section": "LOG",
+    "summary": "include_directories"
+  },
+  {
+    "id": "CMake_26-09-27-10-02PM",
+    "title": "CMake 26-09-27-10-02PM",
+    "date": "2026-09-27",
+    "section": "LOG",
+    "summary": "add_library 和输出路径"
+  },
+  {
+    "id": "CMake_26-09-30-04-45PM",
+    "title": "CMake 26-09-30-04-45PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "link_libraries / target_link_libraries 和库路径"
+  },
+  {
+    "id": "CMake_26-09-30-04-55PM",
+    "title": "CMake 26-09-30-04-55PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "链接权限和第三方动态库"
+  },
+  {
+    "id": "CMake_26-09-30-05-05PM",
+    "title": "CMake 26-09-30-05-05PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "message 的几种级别"
+  },
+  {
+    "id": "CMake_26-09-30-05-15PM",
+    "title": "CMake 26-09-30-05-15PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "set 和 list 拼接"
+  },
+  {
+    "id": "CMake_26-09-30-05-25PM",
+    "title": "CMake 26-09-30-05-25PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "list(REMOVE_ITEM)"
+  },
+  {
+    "id": "CMake_26-09-30-05-35PM",
+    "title": "CMake 26-09-30-05-35PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "add_definitions 和自带的宏"
+  },
+  {
+    "id": "CMake_26-09-30-05-45PM",
+    "title": "CMake 26-09-30-05-45PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "节点关系、添加子目录、根目录"
+  },
+  {
+    "id": "CMake_26-09-30-05-55PM",
+    "title": "CMake 26-09-30-05-55PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "calc / sort / test1 / test2 的 CMakeLists"
+  },
+  {
+    "id": "CMake_26-09-30-06-05PM",
+    "title": "CMake 26-09-30-06-05PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "整棵树怎么构建"
+  },
+  {
+    "id": "CMake_26-09-30-06-15PM",
+    "title": "CMake 26-09-30-06-15PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "基本表达式、逻辑判断、比较"
+  },
+  {
+    "id": "CMake_26-09-30-06-25PM",
+    "title": "CMake 26-09-30-06-25PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "文件判断和其它判断"
+  },
+  {
+    "id": "CMake_26-09-30-06-35PM",
+    "title": "CMake 26-09-30-06-35PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "foreach 的前两种写法"
+  },
+  {
+    "id": "CMake_26-09-30-06-45PM",
+    "title": "CMake 26-09-30-06-45PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "foreach 的后两种写法"
+  },
+  {
+    "id": "CMake_26-09-30-06-55PM",
+    "title": "CMake 26-09-30-06-55PM",
+    "date": "2026-09-30",
+    "section": "LOG",
+    "summary": "while 写法"
   }
 ]
