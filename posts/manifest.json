@@ -488,5 +488,12 @@
     "date": "2026-09-30",
     "section": "LOG",
     "summary": "while 写法"
+  },
+  {
+    "id": "home-26-09-30",
+    "title": "CMake 学完了",
+    "date": "2026-09-30",
+    "section": "HOME",
+    "summary": "两周学完 cmake, 有点慢"
   }
 ]
