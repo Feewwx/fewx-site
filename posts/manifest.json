@@ -21,11 +21,32 @@
     "summary": "✌️"
   },
   {
+    "id": "home-26-07-03",
+    "title": "本地部署还是失败了",
+    "date": "2026-07-03",
+    "section": "HOME",
+    "summary": "8G 显存,两头不占"
+  },
+  {
     "id": "home-26-07-06",
     "title": "为什么连续四天没写一点代码",
     "date": "2026-07-06",
     "section": "HOME",
     "summary": "好累"
+  },
+  {
+    "id": "home-26-08-21",
+    "title": "调了一整天 bar 的透明度",
+    "date": "2026-08-21",
+    "section": "HOME",
+    "summary": "我的系统真好看"
+  },
+  {
+    "id": "home-26-08-23",
+    "title": "我的 hyprview 插件编译挂了",
+    "date": "2026-08-23",
+    "section": "HOME",
+    "summary": "yeee"
   },
   {
     "id": "home-26-09-13",
@@ -40,6 +61,69 @@
     "date": "2026-09-15",
     "section": "HOME",
     "summary": "难的不是编译,是怎么编译得好"
+  },
+  {
+    "id": "home-26-09-20",
+    "title": "戒抖音",
+    "date": "2026-09-20",
+    "section": "HOME",
+    "summary": "越来越没耐心"
+  },
+  {
+    "id": "home-26-09-21",
+    "title": "社团面试结束了",
+    "date": "2026-09-21",
+    "section": "HOME",
+    "summary": "心累"
+  },
+  {
+    "id": "home-26-09-22",
+    "title": "我更喜欢做一个布道者",
+    "date": "2026-09-22",
+    "section": "HOME",
+    "summary": "自强"
+  },
+  {
+    "id": "home-26-09-23",
+    "title": "开机冻屏,chroot 里修了 5 小时",
+    "date": "2026-09-23",
+    "section": "HOME",
+    "summary": "AI真是太恐怖了"
+  },
+  {
+    "id": "home-26-09-25",
+    "title": "折腾半年 Linux",
+    "date": "2026-09-25",
+    "section": "HOME",
+    "summary": "后悔没早点开始"
+  },
+  {
+    "id": "home-26-09-26",
+    "title": "给整库 flac 刷了双语歌词",
+    "date": "2026-09-26",
+    "section": "HOME",
+    "summary": "SPlayer真好看"
+  },
+  {
+    "id": "home-26-09-29",
+    "title": "我这人就喜欢哲学和政治",
+    "date": "2026-09-29",
+    "section": "HOME",
+    "summary": "没人聊这些我会难受"
+  },
+  {
+    "id": "home-26-10-01",
+    "title": "抖音戒掉了",
+    "date": "2026-10-01",
+    "section": "HOME",
+    "summary": "成功"
+  },
+  {
+    "id": "home-26-10-02",
+    "title": "翻ai的记忆",
+    "date": "2026-10-02",
+    "section": "HOME",
+    "summary": "意识到我是活生生的一个人"
   },
   {
     "id": "product-code",
