@@ -24,7 +24,41 @@ camera.position.set(0, 0, -6);
 
 let cubeMesh = null;
 let cubeFX = null;
-const cubeBasePos = new THREE.Vector3(); 
+const cubeBasePos = new THREE.Vector3();
+
+// 需要按视口铺满的背景板（底 + 图），加载完统一算尺寸，之后每次 resize 重算
+const bgPlanes = [];
+
+// 背景板怎么贴视口：
+//   'contain' 完整显示，图不裁，比例对不上就上下（或左右）留黑 —— 大屏用这个
+//   'cover'   铺满裁切，四面不露黑，多出来的出画 —— 手机用这个
+// 由 loadScene 按当前是哪套 glb 设置。
+let fitMode = 'contain';
+
+// 板子是正对视口的，世界 X 就是屏幕横向、世界 Y 就是屏幕纵向，所以直接按包围盒比。
+function fitBackground() {
+  if (!bgPlanes.length) return;
+  const camPos = camera.getWorldPosition(new THREE.Vector3());
+  const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+
+  for (const { mesh, base } of bgPlanes) {
+    mesh.scale.copy(base); // 先还原，量的才是原始包围盒
+    const size = new THREE.Vector3();
+    new THREE.Box3().setFromObject(mesh).getSize(size);
+
+    // 距离按相机朝向量，不写死相机位置：两个 glb 的相机一个在 z=-6.77 一个在 z=-5.39
+    const dist = mesh.getWorldPosition(new THREE.Vector3()).sub(camPos).dot(forward);
+    if (dist <= 0) continue; // 板子在相机后面，不掺和
+
+    const visH = 2 * Math.tan((camera.fov * Math.PI) / 180 / 2) * dist;
+    const visW = visH * camera.aspect;
+
+    const k = fitMode === 'cover'
+      ? Math.max(visW / size.x, visH / size.y)
+      : Math.min(visW / size.x, visH / size.y);
+    mesh.scale.copy(base).multiplyScalar(k);
+  }
+}
 
 // ---- 1. 像素级无损噪点生成器 ----
 function generateNoiseTexture(size = 256) {
@@ -69,109 +103,117 @@ window.addEventListener('mousemove', (event) => {
   mouseY = (event.clientY - windowHalfY) * 0.003;
 });
 
-const isMobile = window.matchMedia('(max-width: 768px)').matches;
-const gltfPath = isMobile ? './assets/phone.glb' : './assets/blog.glb';
+// 桌面 768px 以上用 blog.glb，手机用 phone.glb。原来只在加载时判一次，
+// 桌面窗口拉窄到 768 以下不会换，得刷新才生效；现在跨断点自动换。
+const mobileQuery = window.matchMedia('(max-width: 768px)');
 
 const loader = new GLTFLoader();
-loader.load(
-  gltfPath,
-  (gltf) => {
-    const root = gltf.scene;
-    scene.add(root);
+let currentRoot = null;   // 当前这套 glb 的根，换的时候要拆掉
+let currentLight = null;  // 把它一起加进 scene 的面光，也要跟着拆
+let loadToken = 0;        // 快速来回跨断点时，作废掉过期的加载结果
 
-    if (gltf.cameras && gltf.cameras.length > 0) {
-      camera = gltf.cameras[0];
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-    }
+function loadScene(isMobile) {
+  const token = ++loadToken;
+  fitMode = isMobile ? 'cover' : 'contain'; // 大屏完整显示不裁，手机铺满不露黑边
+  loader.load(
+    isMobile ? './assets/phone.glb' : './assets/blog.glb',
+    (gltf) => {
+      if (token !== loadToken) return; // 已经切到另一版了，这次结果丢掉
 
-    // 面光：大幅加强强度。没有了假房问的泛光，纯靠它来勾勒高级的磨砂晶体边缘轮廓
-    const lightProxy = root.getObjectByName('面光');
-    if (lightProxy) {
-      const areaLight = new THREE.RectAreaLight(0xffffff, 6.5, lightProxy.scale.x, lightProxy.scale.y);
-      areaLight.position.copy(lightProxy.position);
-      areaLight.quaternion.copy(lightProxy.quaternion);
-      scene.add(areaLight);
-    }
+      // 拆掉上一套，否则两套 glb 的相机/灯/背景板会叠一起
+      if (currentRoot) scene.remove(currentRoot);
+      if (currentLight) scene.remove(currentLight);
+      if (cubeFX) cubeFX.dispose();
+      bgPlanes.length = 0;
+      cubeMesh = null;
+      cubeFX = null;
 
-    // 点光：大幅加亮，用来从内部激发最核心的色散光谱与表面薄膜镭射
-    const pointLight = root.getObjectByName('点光');
-    if (pointLight) { 
-      pointLight.intensity = 350; 
-    }
+      const root = gltf.scene;
+      scene.add(root);
+      currentRoot = root;
 
-    root.traverse((child) => {
-      if (child.isMesh) {
-        if (child.name === 'Spline_Dispersion_Cube') {
-          cubeMesh = child;
-          cubeBasePos.copy(cubeMesh.position); 
-          
-          // ---- 3. 终极材质：无假反光、纯暗黑噪点、极光镭射 ----
-          cubeMesh.material = new THREE.MeshPhysicalMaterial({
-            color: 0xffffff,
-            transmission: 0.8,           // 100% 物理透射
-            ior: 1.2,                    // 稍微提一点折射率，让背后文字的扭曲变形更具张力
-            thickness: 1.6,              
-            
-            // 极致色散与流体镭射叠加
-            dispersion: 15.0,            // 拉满色散，在无反射的纯黑背景中强行榨出彩虹光谱
-            iridescence: 1.0,            // 薄膜虹彩（表面镭射层）
-            iridescenceIOR: 1.9,         
-            iridescenceThicknessRange: [150, 450], 
-            
-            // 极致哑光微观颗粒
-            roughness: 0.5,              
-            roughnessMap: noiseTexture,  
-            bumpMap: noiseTexture,       // 用像素噪点做凹凸，把所有直射高光打碎成细腻磨砂
-            bumpScale: 0.15,            // 颗粒深度
-            
-            clearcoat: 0.0,              // 坚决不要光滑外壳
-            side: THREE.FrontSide
-          });
-          
-          const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          cubeFX = attachCubeInteraction({ mesh: cubeMesh, domElement: renderer.domElement, idleSpin: prefersReducedMotion ? 0 : 0.05 });
-          
-        } else if (child.name === 'black') {
-          child.material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-          const d = Math.abs(camera.position.y - child.position.y);
+      if (gltf.cameras && gltf.cameras.length > 0) {
+        camera = gltf.cameras[0];
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+      }
 
-          // 2. 计算当前视口在距离 d 处的可见高宽
-          const vFov = (camera.fov * Math.PI) / 180;
-          const visibleHeight = 2 * Math.tan(vFov / 2) * d;
-          const visibleWidth = visibleHeight * camera.aspect;
+      // 面光：大幅加强强度。没有了假房问的泛光，纯靠它来勾勒高级的磨砂晶体边缘轮廓
+      const lightProxy = root.getObjectByName('面光');
+      if (lightProxy) {
+        const areaLight = new THREE.RectAreaLight(0xffffff, 6.5, lightProxy.scale.x, lightProxy.scale.y);
+        areaLight.position.copy(lightProxy.position);
+        areaLight.quaternion.copy(lightProxy.quaternion);
+        scene.add(areaLight);
+        currentLight = areaLight;
+      }
 
-          // 3. 自动获取背板的原始尺寸（最稳妥的做法，免去手动测量）
-          // 先把缩放临时重置为 1，确保拿到的是模型原本的几何大小
-          child.scale.set(1, 1, 1);
-          const box = new THREE.Box3().setFromObject(child);
-          const size = new THREE.Vector3();
-          box.getSize(size);
+      // 点光：大幅加亮，用来从内部激发最核心的色散光谱与表面薄膜镭射
+      const pointLight = root.getObjectByName('点光');
+      if (pointLight) {
+        pointLight.intensity = 350;
+      }
 
-          // ⚠️ 核心细节：因为视角是从上往下看，屏幕的宽对应 X，高对应 Z
-          const originalWidth = size.x;  // 背板在 X 轴的原始宽度
-          const originalHeight = size.z; // 背板在 Z 轴的原始高度
+      root.traverse((child) => {
+        if (child.isMesh) {
+          if (child.name === 'Spline_Dispersion_Cube') {
+            cubeMesh = child;
+            cubeBasePos.copy(cubeMesh.position);
 
-          // 4. 算出精准的缩放倍数
-          const scaleX = visibleWidth / originalWidth;
-          const scaleZ = visibleHeight / originalHeight;
+            // ---- 3. 终极材质：无假反光、纯暗黑噪点、极光镭射 ----
+            cubeMesh.material = new THREE.MeshPhysicalMaterial({
+              color: 0xffffff,
+              transmission: 0.8,           // 100% 物理透射
+              ior: 1.2,                    // 稍微提一点折射率，让背后文字的扭曲变形更具张力
+              thickness: 1.6,
 
-          // 5. 重新赋值缩放（保持 Y 轴厚度不变，或者设为 1）
-          child.scale.set(scaleX, 1, scaleZ);
-        } else {
-          if (child.material) {
-            child.material.transparent = false;      
-            child.material.alphaToCoverage = true;   
-            child.material.depthWrite = true;        
-            child.material.needsUpdate = true;
+              // 极致色散与流体镭射叠加
+              dispersion: 15.0,            // 拉满色散，在无反射的纯黑背景中强行榨出彩虹光谱
+              iridescence: 1.0,            // 薄膜虹彩（表面镭射层）
+              iridescenceIOR: 1.9,
+              iridescenceThicknessRange: [150, 450],
+
+              // 极致哑光微观颗粒
+              roughness: 0.5,
+              roughnessMap: noiseTexture,
+              bumpMap: noiseTexture,       // 用像素噪点做凹凸，把所有直射高光打碎成细腻磨砂
+              bumpScale: 0.15,             // 颗粒深度
+
+              clearcoat: 0.0,              // 坚决不要光滑外壳
+              side: THREE.FrontSide
+            });
+
+            const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            cubeFX = attachCubeInteraction({ mesh: cubeMesh, domElement: renderer.domElement, idleSpin: prefersReducedMotion ? 0 : 0.05 });
+
+          } else if (child.name === 'black') {
+            child.material = new THREE.MeshBasicMaterial({ color: 0x000000 });
+            bgPlanes.push({ mesh: child, base: child.scale.clone() });
+          } else {
+            if (child.material) {
+              child.material.transparent = false;
+              child.material.alphaToCoverage = true;
+              child.material.depthWrite = true;
+              child.material.needsUpdate = true;
+            }
+            // 贴 graffiti 的那块图板，桌面端叫 blog1_ll_4000，手机端叫 blog2_web_new
+            if (child.name === 'blog1_ll_4000' || child.name === 'blog2_web_new') {
+              bgPlanes.push({ mesh: child, base: child.scale.clone() });
+            }
           }
         }
-      }
-    });
-  },
-  undefined,
-  (err) => console.error('GLTF 加载失败：', err)
-);
+      });
+
+      fitBackground(); // 背景板按当前视口铺满
+    },
+    undefined,
+    (err) => console.error('GLTF 加载失败：', err)
+  );
+}
+
+loadScene(mobileQuery.matches);
+// 跨断点时换对应的 glb（原来只在加载时判一次，拉窄了不刷新就一直是旧的那套）
+mobileQuery.addEventListener('change', (e) => loadScene(e.matches));
 
 const clock = new THREE.Clock();
 function animate() {
@@ -201,4 +243,8 @@ window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  fitBackground(); // 必须在上面的 aspect 更新之后
 });
+
+// 手机横竖屏切换时 resize 不保证带最终尺寸，补一次
+window.addEventListener('orientationchange', () => setTimeout(fitBackground, 200));
