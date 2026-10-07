@@ -29,6 +29,39 @@ const cubeBasePos = new THREE.Vector3();
 // 需要按视口铺满的背景板（底 + 图），加载完统一算尺寸，之后每次 resize 重算
 const bgPlanes = [];
 
+// ---- 字母环：贴在涂鸦板上，跟板子同尺寸同朝向，往相机方向抬一点，每帧自转 ----
+const ringTexture = new THREE.TextureLoader().load('./assets/ring.png');
+ringTexture.colorSpace = THREE.SRGBColorSpace; // 手动加载的贴图要自己标，不然会当线性数据用、颜色会偏
+const RING = {
+  speed: 0.12,   // 弧度/秒，越大转越快（0.12 ≈ 52 秒一圈）
+  opacity: 0.6,  // 不透明度，1 = 完全不透明
+  lift:  -0.05,  // 负 = 往相机方向（相机在 -z，所以是减 z）= 在涂鸦前面才看得见
+  size:  0.55,   // 桌面：字占板宽约 49%
+  sizeMobile: 0.85, // 手机：字占板宽约 72%，环要相应放大（这是估的，手机上用 Alt+[ ] 重新调）
+};
+let ringMesh = null;
+const _camDir = new THREE.Vector3(); // 复用，别每帧 new
+
+// ---- 字层：把涂鸦中间那坨字单独切一层浮在环上面，环才算「在字后面」 ----
+const wordTexture = new THREE.TextureLoader().load('./assets/word.png');
+wordTexture.colorSpace = THREE.SRGBColorSpace; // 同上
+const WORD = {
+  w:      0.472,     // 桌面：字宽占涂鸦板宽的比例（2026-10-07 用 Alt+[ ] 调出来的）
+  dx:     0.004,     // 桌面：左右错位（板宽的比例）
+  dy:    -0.021,     // 桌面：上下错位（板高的比例）
+  wMobile:    0.757, // 手机：2026-10-07 在窄窗口下调出来的
+  dxMobile:   0.018,
+  dyMobile:   0.002,
+  bright:     1.0,   // 字层底色系数。字层跟板子一样是受光照的材质，
+                     // 理论上 1.0 就该跟板子一致；偏了再用 Alt + , / . 微调
+
+  aspect: 1.992,     // 字图的宽高比（宽/高），跟 assets/word.png 一致
+  lift:   -0.10,     // 比环更靠相机（环 -0.05），这样字挡在环前面
+  tint:   0xffffff,  // 字图本身是米黄，这里保持白色就是原样
+};
+let wordMesh = null;
+let graffitiBoard = null;
+
 // 背景板怎么贴视口：
 //   'contain' 完整显示，图不裁，比例对不上就上下（或左右）留黑 —— 大屏用这个
 //   'cover'   铺满裁切，四面不露黑，多出来的出画 —— 手机用这个
@@ -57,6 +90,25 @@ function fitBackground() {
       ? Math.max(visW / size.x, visH / size.y)
       : Math.min(visW / size.x, visH / size.y);
     mesh.scale.copy(base).multiplyScalar(k);
+  }
+
+  // 环和字层跟着涂鸦板走：几何都是 1x1，scale 直接给世界尺寸
+  // 手机和桌面用的是两张不同的贴图（横图 vs 竖图），字占板子的比例差很多，所以参数分两套
+  if (graffitiBoard) {
+    const gs = new THREE.Vector3();
+    new THREE.Box3().setFromObject(graffitiBoard).getSize(gs);
+    const mob = fitMode === 'cover'; // 手机走 cover，桌面走 contain
+
+    if (ringMesh) {
+      const d = gs.x * (mob ? RING.sizeMobile : RING.size); // 环是正圆：X 和 Z 给一样的值
+      ringMesh.scale.set(d, 1, d);
+    }
+    if (wordMesh) {
+      const w = gs.x * (mob ? WORD.wMobile : WORD.w);
+      wordMesh.scale.set(w, 1, w / WORD.aspect);
+      wordMesh.position.x = graffitiBoard.position.x + (mob ? WORD.dxMobile : WORD.dx) * gs.x;
+      wordMesh.position.y = graffitiBoard.position.y + (mob ? WORD.dyMobile : WORD.dy) * gs.y;
+    }
   }
 }
 
@@ -127,6 +179,9 @@ function loadScene(isMobile) {
       bgPlanes.length = 0;
       cubeMesh = null;
       cubeFX = null;
+      ringMesh = null;
+      wordMesh = null;
+      graffitiBoard = null;
 
       const root = gltf.scene;
       scene.add(root);
@@ -204,6 +259,39 @@ function loadScene(isMobile) {
         }
       });
 
+      // 字母环挂到涂鸦板上（桌面 blog1_ll_4000 / 手机 blog2_web_new）
+      const board = root.getObjectByName('blog1_ll_4000') || root.getObjectByName('blog2_web_new');
+      if (board) {
+        ringMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({
+          map: ringTexture,
+          transparent: true,
+          opacity: RING.opacity,
+          depthWrite: false,
+          toneMapped: false,
+          side: THREE.DoubleSide,
+        }));
+        ringMesh.position.copy(board.position);
+        ringMesh.quaternion.copy(board.quaternion);
+        ringMesh.position.z += RING.lift;
+        root.add(ringMesh);   // 尺寸在 fitBackground 里按板子算（用 1x1 平面，免得被板子的 5:1 拉扁）
+
+        // 字层：独立一块 1x1 平面，尺寸在 fitBackground 里按板子算
+        graffitiBoard = board;
+        wordMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({
+          map: wordTexture,
+          color: new THREE.Color().setScalar(WORD.bright),
+          metalness: 0,      // 跟 glb 里那块板一样：非金属、哑光
+          roughness: 0.5,
+          transparent: true,
+          depthWrite: false,
+          side: THREE.DoubleSide,
+        }));
+        wordMesh.position.copy(board.position);
+        wordMesh.quaternion.copy(board.quaternion);
+        wordMesh.position.z += WORD.lift;
+        root.add(wordMesh);
+      }
+
       fitBackground(); // 背景板按当前视口铺满
     },
     undefined,
@@ -234,6 +322,12 @@ function animate() {
     cubeMesh.position.y += (targetY - cubeMesh.position.y) * t;
   }
 
+  if (ringMesh) {
+    // 绕相机的视线轴转 = 在屏幕平面里转圈。不能用 rotateZ：
+    // 板子在 glb 里转过 180°，它的局部 Z 在世界里是竖直的，那样转出来是翻饼
+    camera.getWorldDirection(_camDir);
+    ringMesh.rotateOnWorldAxis(_camDir, RING.speed * dt);
+  }
   if (cubeFX) cubeFX.update(dt);
   renderer.render(scene, camera);
 }
@@ -248,3 +342,27 @@ window.addEventListener('resize', () => {
 
 // 手机横竖屏切换时 resize 不保证带最终尺寸，补一次
 window.addEventListener('orientationchange', () => setTimeout(fitBackground, 200));
+
+// ---- 调试用：Alt + 方向键 / [ ] 微调字层（Shift 一起按步子大 5 倍）----
+// 调好之后把控制台打出来的那行抄回上面的 WORD 就行
+window.addEventListener('keydown', (e) => {
+  if (!e.altKey || !wordMesh) return;
+  const KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', '[', ']', ',', '.'];
+  if (!KEYS.includes(e.key)) return;
+  const step = e.shiftKey ? 0.005 : 0.001;
+  // 窄屏（手机那套）调的是 *Mobile 那几个字段，宽屏调原字段
+  const mob = fitMode === 'cover';
+  const K = mob ? { w: 'wMobile', dx: 'dxMobile', dy: 'dyMobile' }
+                : { w: 'w',       dx: 'dx',       dy: 'dy' };
+  if (e.key === 'ArrowUp')    WORD[K.dy] += step;
+  if (e.key === 'ArrowDown')  WORD[K.dy] -= step;
+  if (e.key === 'ArrowLeft')  WORD[K.dx] -= step;
+  if (e.key === 'ArrowRight') WORD[K.dx] += step;
+  if (e.key === '[')          WORD[K.w]  -= step;   // 缩小
+  if (e.key === ']')          WORD[K.w]  += step;   // 放大
+  if (e.key === ',') { WORD.bright = Math.max(0, WORD.bright - 0.05); wordMesh.material.color.setScalar(WORD.bright); }
+  if (e.key === '.') { WORD.bright = Math.min(2, WORD.bright + 0.05); wordMesh.material.color.setScalar(WORD.bright); }
+  fitBackground();
+  console.log(`${mob ? '[手机]' : '[桌面]'} WORD.w = ${WORD[K.w].toFixed(3)}  dx = ${WORD[K.dx].toFixed(3)}  dy = ${WORD[K.dy].toFixed(3)}  bright = ${WORD.bright.toFixed(2)}`);
+  e.preventDefault();
+});
