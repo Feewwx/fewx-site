@@ -57,7 +57,58 @@ async function renderList(sectionName, containerId) {
     container.innerHTML = html;
 }
 
-// 3. 详情页渲染逻辑 (用于 post.html)
+// 3. 代码块语法高亮 (highlight.js)
+//
+// 为什么不引整个全量包：全量带 190 多种语言，压缩前 1MB 多。而 core 只有 21KB，
+// 每种语言 3~5KB，按文章里真正出现的语法现拉，一篇典型的文章总共 30KB 出头。
+//
+// 为什么不写在 <head> 里：router.js 换页时只替换 .content-wrapper，
+// <head> 里的 <script>/<link> 永远不会重新执行 —— 跟上面 marked 那段是同一个坑。
+// 所以这里全部走动态 import，跟着正文走。
+const HLJS_CDN = "https://cdn.jsdelivr.net/npm/highlight.js@11.11.1";
+
+// hljs 认的语言名，和 markdown 里常写的别名对不上，这里兜一层
+const HLJS_ALIAS = { sh: "bash", shell: "bash", zsh: "bash", "c++": "cpp", h: "c" };
+
+async function highlightCodeBlocks(root) {
+    const blocks = [...root.querySelectorAll("pre code")];
+    if (!blocks.length) return;
+
+    // 只认 marked 打了 language-xxx 的块。没打标签的一律不碰 ——
+    // hljs 的自动识别在 ASCII 图、终端输出这类内容上会乱上色，比不亮还难看。
+    const langOf = (el) => {
+        for (const cls of el.classList) {
+            const m = cls.match(/^language-(.+)$/);
+            if (m) return HLJS_ALIAS[m[1]] || m[1];
+        }
+        return null;
+    };
+
+    const wanted = [...new Set(blocks.map(langOf).filter(Boolean))];
+    if (!wanted.length) return;
+
+    let hljs;
+    try {
+        hljs = (await import(`${HLJS_CDN}/lib/core.js/+esm`)).default;
+        await Promise.all(wanted.map(async (lang) => {
+            try {
+                const mod = await import(`${HLJS_CDN}/lib/languages/${lang}.js/+esm`);
+                hljs.registerLanguage(lang, mod.default);
+            } catch { /* hljs 没有这门语言，跳过，正文照常显示 */ }
+        }));
+    } catch (e) {
+        console.warn("语法高亮加载失败，代码块按纯文本显示:", e);
+        return;
+    }
+
+    for (const el of blocks) {
+        const lang = langOf(el);
+        if (!lang || !hljs.getLanguage(lang)) continue;
+        try { hljs.highlightElement(el); } catch { /* 单块失败不影响别的 */ }
+    }
+}
+
+// 4. 详情页渲染逻辑 (用于 post.html)
 async function renderSinglePost() {
     const { marked } = await import("https://cdn.jsdelivr.net/npm/marked@12.0.1/lib/marked.esm.js");
     // 从 URL 中获取文章 ID (例如: post.html?id=home-001)
@@ -94,7 +145,12 @@ async function renderSinglePost() {
         // 但路由切换时只替换 .content-wrapper 和 nav，<head> 里的脚本永远不会重新执行——
         // 如果用户是从一个没有这段 head 脚本的页面（比如 index.html）一路点过来的，
         // window.marked 全程都是 undefined，文章正文就会一直报"无法加载"。
-        document.getElementById('article-content').innerHTML = marked.parse(markdownText);
+        const article = document.getElementById('article-content');
+        article.innerHTML = marked.parse(markdownText);
+
+        // 上色。故意不 await —— 先让正文出来，颜色随后补上，
+        // 别让 CDN 那几个请求把整篇文章卡住。
+        highlightCodeBlocks(article);
     } catch (error) {
         console.error(error);
         document.getElementById('article-content').innerHTML = `<p style="color:red;">无法加载文章正文内容 (${error.message})</p>`;

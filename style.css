@@ -22,7 +22,7 @@ nav a.active { color: #ff0000; }
 }
 .section-title { font-size: 24px; font-weight: bold; letter-spacing: 2px; margin-bottom: 40px; color: #888; border-bottom: 1px solid #ff0000; padding-bottom: 10px; text-transform: uppercase; }
 .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-.post-card { background: rgba(25, 25, 25, 0.6); border: 1px solid #333; padding: 24px; border-radius: 8px; transition: transform 0.3s ease, border-color 0.3s ease; }
+.post-card { background: rgba(25, 25, 25, 0.6); border: 1px solid transparent; padding: 24px; border-radius: 8px; transition: transform 0.3s ease, border-color 0.3s ease; }
 .post-card:hover { transform: translateY(-5px); border-color: #ff0000; }
 .post-card h3 a { color: #fff; text-decoration: none; font-size: 20px; font-weight: bold; }
 .post-card .meta { color: #888; font-size: 14px; margin: 10px 0; }
@@ -86,3 +86,94 @@ nav a.active { color: #ff0000; }
   background-color: #ff0000;
   color: #ffffff;
 }
+
+/* ==========================================
+   代码块语法高亮（highlight.js）
+   配色从 assets/blog.glb 里那张背景贴图（blog1_ll_4000）抠出来取样：
+   涂鸦 FEWX 字标的米白 + 橙色圆环 + 红绿灯的红。
+   括号里是在代码块底 #161616 上的对比度。
+   要改颜色只动下面这一段变量，底下的规则别碰。
+
+   ⚠ --hl-fg 为什么是橙色（这条最容易看糊涂）：
+   highlight.js 是正则分词，它给 C 打的标记只有 type / title / params /
+   keyword / number 五种 —— a、n、i、a[i] == e 这些标识符是【纯文本，零标记】。
+   而 nvim 用 tree-sitter，能认出每个标识符，他那边把这些全刷成关键字同色
+   （init.lua 里那条「强力变量抓取」：Identifier / @variable / @property 全是 c.red）。
+   想在网页上复现同一个效果，唯一的办法就是把「没标记的文本」整片染上色 ——
+   也就是把 fg 设成和关键字一样的橙。所以 fg 不是"正文色"而是"变量色"。
+
+   ⚠ --hl-type 为什么是纯白（试过三版才定）：
+   背景贴图里真正拉得开的色相只有两个 —— 橙和红。金褐(#B98F47)、橄榄(#ADAC91)、
+   米白(#D5D3B1) 全在橙的色相里，只是明暗不同，放在一片橙中间照样糊。
+   变量已经把橙占满了，所以类型只剩"中性色"这一条路。纯白是唯一跳得出来的。
+   别再试着把它换回暖色了，2026-10-09 试过两轮都不行。
+   ========================================== */
+:root {
+  --hl-fg:       #f89000;  /* 变量 / 标识符   7.9:1  跟关键字同色（见上面那段） */
+  --hl-comment:  #656354;  /* 注释            2.99:1  涂鸦橄榄（刻意压暗） */
+  --hl-keyword:  #f89000;  /* 关键字          7.9:1  橙色圆环那个橙（满饱和） */
+  --hl-function: #ff0000;  /* 函数名          4.4:1  站点唯一的强调色（标题/链接同一个红） */
+  --hl-string:   #D5D3B1;  /* 字符串         11.9:1  字标米白（有引号，不用靠颜色认） */
+  --hl-type:     #ffffff;  /* 类型 int/char  21:1    纯白（中性色，见下面那段） */
+  --hl-number:   #ADAC91;  /* 数字、常量      7.8:1  字标暗部 */
+}
+
+/* 站点全局那层 saturate(200%) 叠在 html 和 body 上（实际 400%，见文件开头那条注释）。
+   代码块配色是从背景图里取的（米白 + 王冠橙 + 涂鸦橄榄），这些都带色相，
+   不抵消的话米白会被染成纯黄 —— 实测 #D5D3B1 会变成 #ece44b。
+   所以在代码块上把两层滤镜反着抵消，写什么色屏幕上就是什么色。
+   contrast 的倒数是 1/1.06 = 94.34%，不是 94%。 */
+.markdown-body pre {
+  filter: saturate(50%) contrast(94.34%) saturate(50%) contrast(94.34%);
+}
+
+.markdown-body pre code.hljs {
+  color: var(--hl-fg);
+  background: none;
+  padding: 0;
+}
+
+.hljs-comment,
+.hljs-quote { color: var(--hl-comment); font-style: italic; }
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-doctag,
+.hljs-name,
+.hljs-section,
+.hljs-tag,
+.hljs-meta,
+.hljs-deletion { color: var(--hl-keyword); }
+
+.hljs-title,
+.hljs-title.function_,
+.hljs-function .hljs-title,
+.hljs-built_in { color: var(--hl-function); }
+
+.hljs-string,
+.hljs-regexp,
+.hljs-char.escape_,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-addition { color: var(--hl-string); }
+
+/* 类型这一组必须放在函数那组后面：.hljs-title.class_ 得盖住上面的 .hljs-title */
+.hljs-type,
+.hljs-title.class_,
+.hljs-class .hljs-title,
+.hljs-operator,
+.hljs-punctuation { color: var(--hl-type); }
+
+.hljs-number,
+.hljs-literal { color: var(--hl-number); }
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-params,
+.hljs-property,
+.hljs-attr,
+.hljs-attribute { color: var(--hl-keyword); }
+
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
